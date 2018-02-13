@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Kwiq Delivery</string>
+    <string name="google_api_key">AIzaSyBMALFuaX5kYcokAymgTM53323cphmNEHE</string>
+    <string name="google_directions_matrix">AIzaSyD4FBnwwIsdfm5uDAckZFgxPDaDf6NoHrg</string>
+    <string name="google_directions_maps_api">AIzaSyDkQb2qXRtrvFjutTE0Mca7ZFnaaNS0SL4</string>
+
+    <string name="accepted">ACCEPTED</string>
+    <string name="pending">PENDING</string>
+    <string name="enterotp">Please Enter OTP</string>
+    <string name="reg_screen_submit">Submit</string>
+
+    <string name="fullname">Full Name</string>
+    <string name="email">Email Id</string>
+    <string name="password">Password</string>
+    <string name="phoneno">Phone No.</string>
+    <string name="registernow">Register Now</string>
+    <string name="forgotnow">Forgot Password</string>
+    <string name="signin">SIGN IN</string>
+    <string name="signup">SIGN UP</string>
+    <string name="submit">SUBMIT</string>
+    <string name="ordercomplete">Your order is delivered successfully</string>
+    <string name="myorder">My Order</string>
+    <string name="editprofile">EDIT PROFILE</string>
+    <string name="signout">SIGN OUT</string>
+    <string name="paymentrecord">Payment Record</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="alreadyaccount">Already have an account?</string>
+    <string name="areyousuretologout">Are you sure you want to logout?</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username">Username</string>
+
+
+    <string name="agreement">I agree the terms and conditions.</string>
+    <string name="clear_pad">Clear</string>
+    <string name="save_signature">Save</string>
+    <string name="compress_signature">Scale</string>
+    <string name="location_updated_message">Location Updated</string>
+
+
+</resources>

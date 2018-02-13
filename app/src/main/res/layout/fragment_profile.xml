@@ -1,0 +1,279 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smartitventures.Fragments.ProfileFragment">
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/image_size5"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        >
+
+
+      <!--  <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/male"
+            app:civ_border_width="2dp"
+            android:layout_margin="10dp"
+            app:civ_border_color="#FF000000"/>-->
+
+
+
+        <TextView
+            android:id="@+id/tvDriverName"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange_app"
+            android:padding="@dimen/_10sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:text="SMART IT VENTURES"/>
+
+        <TextView
+            android:id="@+id/tvDriverPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_13sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="@dimen/_10sdp"
+            android:text="8699367603"/>
+
+
+        <TextView
+            android:id="@+id/tvDriverAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_11sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:padding="@dimen/_10sdp"
+            android:text="Ropar"/>
+
+
+
+   <!--     <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/editprofile"
+            android:textColor="@color/white"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:textSize="@dimen/image_size8"
+            android:background="@drawable/btnbackground"/>-->
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/viewGrey"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/grey"/>
+
+
+    <LinearLayout
+        android:id="@+id/middleLayout"
+        android:layout_above="@id/belowView"
+        android:layout_below="@id/viewGrey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="3"
+        >
+
+        <LinearLayout
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/cartred"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/myorder"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tvTotalOrders"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textColor="#FFF"
+                    android:textSize="10sp"
+                    android:text="4"
+                    android:layout_gravity="center"
+                    android:padding="1dp"
+                    android:background="@drawable/badge_circle_grey"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/anglearrowright"
+                    android:contentDescription="TODO" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/creditcardred"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/paymentrecord"
+                android:layout_margin="5dp"
+
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/anglearrowright"
+                android:contentDescription="TODO" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/miscelle"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/miscellaneous"
+                android:layout_margin="5dp"
+
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/anglearrowright"
+                android:contentDescription="TODO" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+
+    </LinearLayout>
+
+
+ <!--   <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_above="@id/belowView"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btnbackground"
+        android:padding="5dp"
+        android:layout_centerInParent="true"
+        android:text="@string/signout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/image_size8" />
+
+-->
+
+
+    <View
+        android:id="@+id/belowView"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/lightgrey"
+        />
+
+</RelativeLayout>

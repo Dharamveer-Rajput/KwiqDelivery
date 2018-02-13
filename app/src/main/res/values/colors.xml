@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="actionBarColor">#b0ab95</color>
+    <color name="signupbtncolor">#c4311d</color>
+    <color name="bookingbtncolor">#044aac</color>
+    <color name="roundbtnbacgroundclr">#c3002d</color>
+
+
+    <color name="green">#00d048</color>
+    <color name="yellowerror">#f7d156</color>
+    <color name="darkgreen">#006400</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="cartredcolr">#ed2b35</color>
+    <color name="red">#ff0000</color>
+    <color name="thoughtclr">#c656a0</color>
+    <color name="galleryclr">#f67c01</color>
+    <color name="programclr">#1a98d5</color>
+    <color name="bookingclr">#044aac</color>
+    <color name="profileclr">#0e5d30</color>
+    <color name="chatclr">#26b7d4</color>
+
+    <color name="orange_app">#fd923f</color>
+
+    <color name="grey">#cacbcc</color>
+    <color name="lightgrey">#F2F2F2</color>
+    <color name="dimgreen">#B2D0B2</color>
+    <color name="tomato">#FF6347</color>
+    <color name="dimorange">#F4AC66</color>
+    <color name="transparent2">#000000</color>
+    <color name="signinbtncolor">#c4311d</color>
+    <color name="appyellowclr">#f9f5dc</color>
+
+    <color name="alphaShade">#99000000</color>
+    <color name="serviceiconcolor">#fcc72e</color>
+
+
+</resources>

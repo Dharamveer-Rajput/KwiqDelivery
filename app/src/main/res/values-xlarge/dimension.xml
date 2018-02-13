@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_size5">25dp</dimen>
+    <dimen name="image_size8">28dp</dimen>
+    <dimen name="image_size10">30dp</dimen>
+    <dimen name="image_size11">31dp</dimen>
+    <dimen name="image_size12">32dp</dimen>
+    <dimen name="image_size13">33dp</dimen>
+    <dimen name="image_size14">34dp</dimen>
+    <dimen name="image_size15">35dp</dimen>
+    <dimen name="image_size16">36dp</dimen>
+    <dimen name="image_size17">37dp</dimen>
+    <dimen name="image_size18">38dp</dimen>
+    <dimen name="image_size19">39dp</dimen>
+    <dimen name="image_size20">40dp</dimen>
+    <dimen name="image_size21">41dp</dimen>
+    <dimen name="image_size22">42dp</dimen>
+    <dimen name="image_size23">43dp</dimen>
+    <dimen name="image_size24">44dp</dimen>
+    <dimen name="image_size25">45dp</dimen>
+    <dimen name="image_size26">46dp</dimen>
+    <dimen name="image_size27">47dp</dimen>
+    <dimen name="image_size28">48dp</dimen>
+    <dimen name="image_size29">49dp</dimen>
+    <dimen name="image_size30">50dp</dimen>
+    <dimen name="image_size31">51dp</dimen>
+    <dimen name="image_size32">52dp</dimen>
+    <dimen name="image_size33">53dp</dimen>
+    <dimen name="image_size34">54dp</dimen>
+    <dimen name="image_size35">55dp</dimen>
+    <dimen name="image_size36">56dp</dimen>
+    <dimen name="image_size37">57dp</dimen>
+    <dimen name="image_size38">58dp</dimen>
+    <dimen name="image_size39">59dp</dimen>
+    <dimen name="image_size40">60dp</dimen>
+    <dimen name="image_size41">61dp</dimen>
+    <dimen name="image_size42">62dp</dimen>
+    <dimen name="image_size43">63dp</dimen>
+    <dimen name="image_size44">64dp</dimen>
+    <dimen name="image_size45">65dp</dimen>
+    <dimen name="image_size46">66dp</dimen>
+    <dimen name="image_size47">67dp</dimen>
+    <dimen name="image_size48">68dp</dimen>
+    <dimen name="image_size49">69dp</dimen>
+    <dimen name="image_size50">70dp</dimen>
+    <dimen name="text_size90">110sp</dimen>
+    <dimen name="image_size60">80dp</dimen>
+    <dimen name="image_size70">90dp</dimen>
+    <dimen name="image_size80">100dp</dimen>
+
+    <dimen name="image_size100">120dp</dimen>
+    <dimen name="image_size120">140dp</dimen>
+    <dimen name="image_size150">170dp</dimen>
+    <dimen name="image_size160">220dp</dimen>
+
+    <dimen name="image_size180">200dp</dimen>
+    <dimen name="image_size300">300dp</dimen>
+    <dimen name="image_size200">220dp</dimen>
+    <dimen name="image_size250">600dp</dimen>
+
+
+</resources>

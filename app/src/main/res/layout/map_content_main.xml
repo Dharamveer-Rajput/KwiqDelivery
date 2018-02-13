@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:htext="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/fragment_dashboard">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true">
+
+
+                <fragment
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mapLayoutAddress"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    map:cameraBearing="112.5"
+                    map:cameraZoom="13"
+                    />
+
+
+
+
+                <TextView
+                    android:id="@+id/tvTotalDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/tomato"
+                    android:textColor="#fff"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/_3sdp"
+                    android:textSize="@dimen/_9sdp"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:text="No orders selected"
+                    />
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:layout_below="@id/tvTotalDistance"
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/tomato"
+                    android:textColor="#fff"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/_8sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Time"
+                    />
+
+
+
+
+        </RelativeLayout>
+
+
+</LinearLayout>

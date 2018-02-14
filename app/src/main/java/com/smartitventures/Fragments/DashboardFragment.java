@@ -184,17 +184,6 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
         GetAssignedOrderApi();
 
-/*
-        tvTotalDistance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(getActivity(),SignatureDialogActivity.class));
-
-            }
-        });*/
-
-
 
         return view;
 

@@ -30,11 +30,11 @@
             android:icon="@drawable/cart"
             />
 
-        <item
+      <!--  <item
             android:id="@+id/payment"
             android:title="Payment Record"
             android:icon="@drawable/payment_record"/>
-
+-->
 
 
     </group>

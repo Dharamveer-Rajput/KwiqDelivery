@@ -414,10 +414,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                 break;
 
 
-            case R.id.payment:
-                break;
-
-
 
 
             case R.id.settings_frag:

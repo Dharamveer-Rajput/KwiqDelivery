@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -59,8 +60,11 @@ import com.smartitventures.Dialog.SignatureDialogActivity;
 import com.smartitventures.GoogleMapsDirections.DirectionsJSONParser;
 import com.smartitventures.Response.AssignedOrderResponse.AssignedOrderPayload;
 import com.smartitventures.Response.AssignedOrderResponse.AssignedOrderSuccess;
+import com.smartitventures.Response.TrackOrderStatusSuccess.TrackOrderSuccess;
 import com.smartitventures.Response.UpdateLatLng.UpdateLatLong;
 import com.smartitventures.adapters.AdapterDashboardFragment;
+import com.smartitventures.maps_library.MapRadar;
+import com.smartitventures.maps_library.MapRipple;
 import com.smartitventures.quickdelivery.DashboardActivity;
 
 import org.json.JSONObject;
@@ -85,7 +89,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class DashboardFragment extends BaseFragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleMap.OnInfoWindowClickListener,
+import static android.content.Context.MODE_PRIVATE;
+
+public class DashboardFragment extends BaseFragment implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleMap.OnInfoWindowClickListener,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
 
@@ -117,9 +125,7 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LocationRequest mLocationRequest;
     private NoInternetDialog noInternetDialog;
-
-    private static String TAG = "Dashboard Fragment ---------------------------------- ------>";
-
+    private  String TAG = "Dashboard Fragment ---------------------------------- ------>";
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Context context;
     private String driverId;
@@ -127,12 +133,11 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
     private double curLat, curLong;
     private int markerCount;
     private Marker currentLocationMarker;
-
-    public static final String EXTRA_NOTIFICATION_ID = "notification_id";
-    public static final String ACTION_STOP = "STOP_ACTION";
     BroadcastReceiver mMessageReceiver;
-    protected Location mCurrentLocation;
-    SignatureDialogActivity signatureDialog;
+    private boolean isShowing;
+    private MapRipple mapRipple;
+    private MapRadar mapRadar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -219,11 +224,11 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
-                mMap.setMyLocationEnabled(true);
+                mMap.setMyLocationEnabled(false);
             }
         } else {
             buildGoogleApiClient();
-            mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(false);
         }
 
 
@@ -243,6 +248,15 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                     curLat  = lastKnownLoc.getLatitude();
                     curLong = lastKnownLoc.getLongitude();
 
+
+                    LatLng latLng = new LatLng(curLat, curLong);
+
+                    mapRipple = new MapRipple(mMap, latLng, context);
+                    mapRadar = new MapRadar(mMap,latLng,context);
+
+                   // advancedRipple();
+                    //simpleRipple();
+                    radarAnimation();
 
                     if (currentLocationMarker != null) {
                         currentLocationMarker.remove();
@@ -291,7 +305,6 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                 .target(new LatLng(curLat,curLong)  )    // Sets the center of the map to location user
                                 .zoom(17)                   // Sets the zoom
                                 .bearing(10)                // Sets the orientation of the camera to east
-                                .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                                 .build();                   // Creates a CameraPosition from the builder
                         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                         //Add pointer to the map at location
@@ -307,6 +320,26 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("GPSLocationUpdates"));
 
+    }
+
+
+    public void simpleRipple() {
+        mapRipple.withNumberOfRipples(1);
+        mapRipple.withFillColor(Color.parseColor("#00000000"));
+        mapRipple.withStrokeColor(Color.BLACK);
+        mapRipple.withStrokewidth(5);      // 10dp
+        mapRipple.startRippleMapAnimation();
+    }
+
+    public void advancedRipple() {
+        mapRipple.withNumberOfRipples(3);
+        mapRipple.withFillColor(Color.parseColor("#FFA3D2E4"));
+        mapRipple.withStrokewidth(0);      //0dp
+        mapRipple.startRippleMapAnimation();
+    }
+
+    public void radarAnimation() {
+        mapRadar.startRadarAnimation();
     }
 
     private void GetAssignedOrderApi() {
@@ -344,16 +377,50 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                     sharedPrefsHelper.put(AppConstants.USER_LAT, String.valueOf(user_latitude));
                                     sharedPrefsHelper.put(AppConstants.USER_LONG, String.valueOf(user_longitude));
 
+                                    String driverID = String.valueOf(sharedPrefsHelper.get(AppConstants.DRIVER_ID,0));
+                                    String orderNo = sharedPrefsHelper.get(AppConstants.ORDER_NO,"");
+                                    String businessID = String.valueOf(sharedPrefsHelper.get(AppConstants.BUSINESS_ID,0));
+
+
+
+                                    isShowing = true;
 
                                     mMap.clear();
 
-                                    //checkContinuousDistance(Double.parseDouble(lat), Double.parseDouble(lng));
+
+                                    compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"2")
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(new Consumer<TrackOrderSuccess>() {
+                                                @Override
+                                                public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
+
+                                                    if(trackOrderSuccess.getIsSuccess()){
+
+                                                        showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                    }
+
+                                                    else {
+
+                                                        showAlertDialog("Retry",trackOrderSuccess.getMessage());
+
+                                                    }
+
+                                                }
+                                            }, new Consumer<Throwable>() {
+                                                @Override
+                                                public void accept(Throwable throwable) throws Exception {
 
 
-                                    // float results[] = new float[10];
+                                                    showAlertDialog("Retry",throwable.getMessage());
 
-                                    // Location.distanceBetween(curLat, curLong, Double.parseDouble(lat), Double.parseDouble(lng), results);
-                                    //Toast.makeText(getActivity(), "Distance Updated" + results[0], Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            }));
+
+
+
+
 
 
                                     mMessageReceiver = new BroadcastReceiver() {
@@ -380,17 +447,72 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                                 Location.distanceBetween(curLat, curLong, Double.valueOf(lat), Double.valueOf(lng), results);
 
 
-                                                final float radius = 100;
+                                                final float radius = 50;
 
 
-                                               // Toast.makeText(getActivity(), "Running Distance : " + results[0] ,Toast.LENGTH_SHORT).show();
+                                                if(results[0]<=radius)
+                                                {
 
 
-                                                if(results[0]<=radius){
+                                                    if(isShowing)
+                                                    {
 
-                                                    startActivity(new Intent(getActivity(),SignatureDialogActivity.class));
+                                                        // show dialogactivity
+                                                        startActivity(new Intent(getActivity(), SignatureDialogActivity.class));
+
+                                                        isShowing = false;
+
+                                                    }
 
                                                 }
+
+
+
+                                                float halfDis = results[0]/2;
+
+
+
+                                                if(results[0]==halfDis){
+
+
+                                                    compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"3")
+                                                            .subscribeOn(Schedulers.computation())
+                                                            .observeOn(AndroidSchedulers.mainThread())
+                                                            .subscribe(new Consumer<TrackOrderSuccess>() {
+                                                                @Override
+                                                                public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
+
+                                                                    if(trackOrderSuccess.getIsSuccess()){
+
+                                                                        showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                                    }
+
+                                                                    else {
+
+                                                                        showAlertDialog("Retry",trackOrderSuccess.getMessage());
+
+                                                                    }
+
+                                                                }
+                                                            }, new Consumer<Throwable>() {
+                                                                @Override
+                                                                public void accept(Throwable throwable) throws Exception {
+
+
+                                                                    showAlertDialog("Retry",throwable.getMessage());
+
+
+                                                                }
+                                                            }));
+
+
+
+
+                                                }
+
+
+
+
 
 
 
@@ -428,6 +550,8 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
 
                                 }
+
+
                             });
 
                         } else {
@@ -530,7 +654,6 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
         }
         return false;
     }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -869,8 +992,6 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
         return url;
     }
-
-
 
     private String formatNumber(double distance) {
         String unit = "m";

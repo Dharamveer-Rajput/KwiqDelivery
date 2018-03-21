@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/KwiqDelivery.iml" filepath="$PROJECT_DIR$/KwiqDelivery.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/drawroutemap/drawroutemap.iml" filepath="$PROJECT_DIR$/drawroutemap/drawroutemap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/googlemapsanimations/googlemapsanimations.iml" filepath="$PROJECT_DIR$/googlemapsanimations/googlemapsanimations.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>

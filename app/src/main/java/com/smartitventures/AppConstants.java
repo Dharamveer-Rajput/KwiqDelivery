@@ -5,6 +5,8 @@ package com.smartitventures;
  */
 
 public class AppConstants {
+
+
     public static final String BASE_URL = "http://employeelive.com/kwiqmall/DeliveryAPI/public/";
 
     public static final String USER_NAME = "USER_NAME";
@@ -27,5 +29,7 @@ public class AppConstants {
     public static int UPDATE_INTERVAL = 1000; // 1 sec
     public static int FATEST_INTERVAL = 1000; // 1 sec
     public static int DISPLACEMENT = 10; // 10 meters
+
+
 
 }

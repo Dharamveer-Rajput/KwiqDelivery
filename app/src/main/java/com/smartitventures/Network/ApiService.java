@@ -4,6 +4,7 @@ import com.smartitventures.Response.AssignedOrderResponse.AssignedOrderSuccess;
 import com.smartitventures.Response.CompletedOrPendingOrder.CompletedOrPendingOrderSuccess;
 import com.smartitventures.Response.DeliveryStatusResponse.DeliveryStatusSuccess;
 import com.smartitventures.Response.PhoneNoSuccess.PhoneNoSuccess;
+import com.smartitventures.Response.TrackOrderStatusSuccess.TrackOrderSuccess;
 import com.smartitventures.Response.UpdateLatLng.UpdateLatLong;
 import com.smartitventures.Response.ValidateOtp.ValidateOTPSuccess;
 
@@ -60,12 +61,12 @@ public interface ApiService {
     @Multipart
     @POST("deliveryStatus")
     Observable<DeliveryStatusSuccess> deliveryStatus(@Part("driverId") RequestBody driverId,
-                                                    @Part("orderNo") RequestBody orderNo,
-                                                    @Part("bussinessId") RequestBody bussinessId,
+                                                     @Part("orderNo") RequestBody orderNo,
+                                                     @Part("bussinessId") RequestBody bussinessId,
                                                      @Part MultipartBody.Part file);
 
 
-    //------------------------4
+    //------------------------6
     @FormUrlEncoded
     @POST("CompletedOrPendingOrder")
     Observable<CompletedOrPendingOrderSuccess> completedOrPendingOrder(@Field("driverId") String DriverID,
@@ -74,6 +75,13 @@ public interface ApiService {
 
 
 
+    //------------------------7
+    @FormUrlEncoded
+    @POST("trackOrderStatus")
+    Observable<TrackOrderSuccess> trackOrderStatus(@Field("driverId") String DriverID,
+                                                   @Field("orderNo") String orderNo,
+                                                   @Field("bussinessId") String bussinessId,
+                                                   @Field("deliveryStatus") String deliveryStatus);
 
 
 

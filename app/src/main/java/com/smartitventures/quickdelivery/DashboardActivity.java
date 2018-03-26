@@ -99,20 +99,15 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
 
         displayLocationSettingsRequest(this);
 
-
         DashboardActivityPermissionsDispatcher.getLocationWithPermissionCheck(this);
 
-
         context  = this;
-
         noInternetDialog = new NoInternetDialog.Builder(context).build();
-
 
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
@@ -140,15 +135,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
                     fragmentManager.popBackStack();
                 }
 
-
-
             }
-
 
         }
 
     }
-
 
     private void displayLocationSettingsRequest(Context context) {
         GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context)

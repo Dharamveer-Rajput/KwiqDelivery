@@ -1,7 +1,6 @@
 package com.smartitventures.quickdelivery;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,11 +8,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -195,7 +192,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             }
         }
     }
-
 
 
     /**

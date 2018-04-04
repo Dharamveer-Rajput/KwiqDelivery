@@ -112,10 +112,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         navigationDrawerCode();
-
-
 
         if (savedInstanceState == null) {
 

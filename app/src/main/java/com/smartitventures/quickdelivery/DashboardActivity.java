@@ -400,10 +400,10 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
 
 
-            case R.id.settings_frag:
+            /*case R.id.settings_frag:
                 break;
 
-
+*/
 
         }
 

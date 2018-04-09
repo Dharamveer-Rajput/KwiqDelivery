@@ -43,11 +43,11 @@
         android:id="@+id/group_settings"
         android:checkableBehavior="single">
 
-        <item
+        <!--<item
             android:id="@+id/settings_frag"
             android:title="Settings"
             android:icon="@drawable/settings"/>
-
+-->
 
 
         <item

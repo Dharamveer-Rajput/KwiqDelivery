@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +125,8 @@ public class PendingOrderFragment extends BaseFragment {
                             if(completedOrPendingOrderSuccess.getIsSuccess()){
 
 
+                                Log.d("completedPendOrder True",completedOrPendingOrderSuccess.getMessage());
+
                                 completedPendingPayloads = new ArrayList<>(completedOrPendingOrderSuccess.getPayload());
 
 
@@ -134,7 +137,10 @@ public class PendingOrderFragment extends BaseFragment {
                             }
                             else {
 
-                                showAlertDialog("Retry",completedOrPendingOrderSuccess.getMessage());
+                                Log.d("completedPendOrd False",completedOrPendingOrderSuccess.getMessage());
+
+
+                                //showAlertDialog("Retry",completedOrPendingOrderSuccess.getMessage());
                             }
 
 
@@ -142,6 +148,8 @@ public class PendingOrderFragment extends BaseFragment {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
+                            Log.d("completedendOrd Failure",throwable.getMessage());
+
 
                         }
                     }));

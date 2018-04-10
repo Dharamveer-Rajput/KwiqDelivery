@@ -288,14 +288,16 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                     }
                                     else {
 
-                                        showAlertDialog("Retry", updateLatLong.getMessage());
+                                      //  showAlertDialog("Retry", updateLatLong.getMessage());
+                                        Log.d("Update Lat Long----",updateLatLong.getMessage());
 
                                     }
                                 }
                             }, new Consumer<Throwable>() {
                                 @Override
                                 public void accept(Throwable throwable) throws Exception {
-                                    showAlertDialog("Retry", throwable.getMessage());
+                                   // showAlertDialog("Retry", throwable.getMessage());
+                                    Log.d("Update Lat/Long Failure",throwable.getMessage());
 
                                 }
                             }));
@@ -411,12 +413,15 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
                                                         if(trackOrderSuccess.getIsSuccess()){
 
-                                                            showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                           // showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                            Log.d("trackOrderStatus True",trackOrderSuccess.getMessage());
+
                                                         }
 
                                                         else {
 
-                                                            showAlertDialog("Retry",trackOrderSuccess.getMessage());
+                                                          //  showAlertDialog("Retry",trackOrderSuccess.getMessage());
+                                                            Log.d("trackOrderStatus False",trackOrderSuccess.getMessage());
 
                                                         }
 
@@ -426,8 +431,8 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                                     public void accept(Throwable throwable) throws Exception {
 
 
-                                                        showAlertDialog("Retry",throwable.getMessage());
-
+                                                       // showAlertDialog("Retry",throwable.getMessage());
+                                                        Log.d("trackOrStatus Failure",throwable.getLocalizedMessage());
 
                                                     }
                                                 }));
@@ -507,12 +512,12 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
                                                                         if(trackOrderSuccess.getIsSuccess()){
 
-                                                                            showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                                           // showAlertDialog("True",trackOrderSuccess.getMessage());
                                                                         }
 
                                                                         else {
 
-                                                                            showAlertDialog("Retry",trackOrderSuccess.getMessage());
+                                                                           // showAlertDialog("Retry",trackOrderSuccess.getMessage());
 
                                                                         }
 
@@ -522,7 +527,7 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                                                     public void accept(Throwable throwable) throws Exception {
 
 
-                                                                        showAlertDialog("Retry",throwable.getMessage());
+                                                                       // showAlertDialog("Retry",throwable.getMessage());
 
 
                                                                     }

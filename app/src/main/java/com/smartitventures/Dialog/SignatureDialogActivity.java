@@ -163,13 +163,15 @@ public class SignatureDialogActivity extends BaseActivity {
 
                                         progressBar.setVisibility(View.GONE);
 
-                                        Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                      //  Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Log.d("DeliveryStatus True",deliveryStatusSuccess.getMessage());
 
                                         finish();
                                     }
                                     else {
 
-                                        Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                      //  Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Log.d("DeliveryStatus False",deliveryStatusSuccess.getMessage());
 
                                     }
 
@@ -180,9 +182,11 @@ public class SignatureDialogActivity extends BaseActivity {
 
                                     compositeDisposable.dispose();
 
-                                    Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show();
+                                 //   Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Log.d("DeliveryStatus  Failure",throwable.getMessage());
 
                                 }
+
                             }));
 
 
@@ -208,8 +212,6 @@ public class SignatureDialogActivity extends BaseActivity {
                 break;
         }
     }
-
-
 
 
     public Uri getImageUri1(Context inContext, Bitmap inImage) {
@@ -244,7 +246,6 @@ public class SignatureDialogActivity extends BaseActivity {
     }
 
 
-
     public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -259,7 +260,6 @@ public class SignatureDialogActivity extends BaseActivity {
 
         return inSampleSize;
     }
-
 
     @NonNull
     private MultipartBody.Part prepareFilePart(String partName, Uri fileUri) {

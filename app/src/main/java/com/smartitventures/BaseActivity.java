@@ -159,6 +159,23 @@ public class BaseActivity extends AppCompatActivity
 
     }
 
+    public void internetDialog(Context context){
+
+        AlertDialog.Builder builder =new AlertDialog.Builder(context);
+        builder.setTitle("No internet Connection");
+        builder.setMessage("Please turn on internet connection to continue");
+        builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
+
 
 
 

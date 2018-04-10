@@ -16,6 +16,7 @@ import com.smartitventures.AppConstants;
 import com.smartitventures.BaseFragment;
 import com.smartitventures.Response.CompletedOrPendingOrder.CompletedOrPendingOrderSuccess;
 import com.smartitventures.Response.CompletedOrPendingOrder.CompletedPendingPayload;
+import com.smartitventures.Utils.NetUtils;
 import com.smartitventures.adapters.AdapeterAcceptedOrder;
 import com.smartitventures.adapters.AdapterPendingOrder;
 import com.smartitventures.CollectionsData.PendingOrderData;
@@ -111,39 +112,46 @@ public class PendingOrderFragment extends BaseFragment {
         String deliveryStatus = "0";
 
 
-        compositeDisposable.add(apiService.completedOrPendingOrder(driverID1,deliveryStatus,bussinessId1)
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<CompletedOrPendingOrderSuccess>() {
-                    @Override
-                    public void accept(CompletedOrPendingOrderSuccess completedOrPendingOrderSuccess) throws Exception {
+        if(NetUtils.hasConnectivity(getActivity())){
+            compositeDisposable.add(apiService.completedOrPendingOrder(driverID1,deliveryStatus,bussinessId1)
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<CompletedOrPendingOrderSuccess>() {
+                        @Override
+                        public void accept(CompletedOrPendingOrderSuccess completedOrPendingOrderSuccess) throws Exception {
 
 
-                        if(completedOrPendingOrderSuccess.getIsSuccess()){
+                            if(completedOrPendingOrderSuccess.getIsSuccess()){
 
 
-                            completedPendingPayloads = new ArrayList<>(completedOrPendingOrderSuccess.getPayload());
+                                completedPendingPayloads = new ArrayList<>(completedOrPendingOrderSuccess.getPayload());
 
 
-                            adapterPendingOrder = new AdapterPendingOrder(getActivity(), completedPendingPayloads);
+                                adapterPendingOrder = new AdapterPendingOrder(getActivity(), completedPendingPayloads);
 
-                            recyclerViewPendingOrder.setAdapter(adapterPendingOrder);
+                                recyclerViewPendingOrder.setAdapter(adapterPendingOrder);
+
+                            }
+                            else {
+
+                                showAlertDialog("Retry",completedOrPendingOrderSuccess.getMessage());
+                            }
+
 
                         }
-                        else {
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
 
-                            showAlertDialog("Retry",completedOrPendingOrderSuccess.getMessage());
                         }
+                    }));
 
 
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
 
-                    }
-                }));
-
+        }
+        else {
+            internetDialog(getActivity());
+        }
 
 
 

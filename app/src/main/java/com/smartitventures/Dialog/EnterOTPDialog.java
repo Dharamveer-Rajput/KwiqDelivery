@@ -2,11 +2,13 @@ package com.smartitventures.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.kwiqdelivery.R;
 import com.smartitventures.AppConstants;
+import com.smartitventures.Utils.NetUtils;
 import com.smartitventures.applicationclass.AppController;
 import com.smartitventures.Network.ApiService;
 import com.smartitventures.Response.ValidateOtp.ValidateOTPSuccess;
@@ -117,49 +120,68 @@ public class EnterOTPDialog extends Dialog {
 
             String otp = edAccessCode.getText().toString().trim();
 
-            compositeDisposable.add(apiService.validateOTP(phone, otp)
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<ValidateOTPSuccess>() {
-                        @Override
-                        public void accept(ValidateOTPSuccess validateOTPSuccess) throws Exception {
 
-                            if (validateOTPSuccess.getIsSuccess()) {
+            if(NetUtils.hasConnectivity(getContext())){
 
+                compositeDisposable.add(apiService.validateOTP(phone, otp)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<ValidateOTPSuccess>() {
+                            @Override
+                            public void accept(ValidateOTPSuccess validateOTPSuccess) throws Exception {
 
-                                dialogProgressBar.setVisibility(View.GONE);
-
-                                sharedPrefsHelper.put(AppConstants.DRIVER_ID, validateOTPSuccess.getPayload().getId());
-                                sharedPrefsHelper.put(AppConstants.USER_NAME, validateOTPSuccess.getPayload().getName());
-                                sharedPrefsHelper.put(AppConstants.PHONE_NUMBER, validateOTPSuccess.getPayload().getPhoneNo());
-                                sharedPrefsHelper.put(AppConstants.ADDRESS, validateOTPSuccess.getPayload().getAddress());
+                                if (validateOTPSuccess.getIsSuccess()) {
 
 
-                                getContext().startActivity(new Intent(context, DashboardActivity.class));
-                                UserDataUtility.setLogin(true, context);
+                                    dialogProgressBar.setVisibility(View.GONE);
 
-                            } else {
+                                    sharedPrefsHelper.put(AppConstants.DRIVER_ID, validateOTPSuccess.getPayload().getId());
+                                    sharedPrefsHelper.put(AppConstants.USER_NAME, validateOTPSuccess.getPayload().getName());
+                                    sharedPrefsHelper.put(AppConstants.PHONE_NUMBER, validateOTPSuccess.getPayload().getPhoneNo());
+                                    sharedPrefsHelper.put(AppConstants.ADDRESS, validateOTPSuccess.getPayload().getAddress());
 
-                                dialogProgressBar.setVisibility(View.GONE);
 
-                                edAccessCode.setText("");
+                                    getContext().startActivity(new Intent(context, DashboardActivity.class));
+                                    UserDataUtility.setLogin(true, context);
 
-                                Toast.makeText(context,"OTP is not Valid",Toast.LENGTH_SHORT).show();
+                                } else {
+
+                                    dialogProgressBar.setVisibility(View.GONE);
+
+                                    edAccessCode.setText("");
+
+                                    Toast.makeText(context,"OTP is not Valid",Toast.LENGTH_SHORT).show();
+
+                                }
 
                             }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
 
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-
-                            edAccessCode.setText("");
-                            dialogProgressBar.setVisibility(View.GONE);
-                            noInternetDialog.show();
+                                edAccessCode.setText("");
+                                dialogProgressBar.setVisibility(View.GONE);
+                                noInternetDialog.show();
 
 
-                        }
-                    }));
+                            }
+                        }));
+            }else {
+
+                AlertDialog.Builder builder =new AlertDialog.Builder(context);
+                builder.setTitle("No internet Connection");
+                builder.setMessage("Please turn on internet connection to continue");
+                builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+            }
+
 
 
         }

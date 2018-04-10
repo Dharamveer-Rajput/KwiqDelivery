@@ -106,6 +106,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         context  = this;
         noInternetDialog = new NoInternetDialog.Builder(context).build();
 
+
+
+
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
 

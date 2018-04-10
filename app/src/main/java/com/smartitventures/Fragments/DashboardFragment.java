@@ -62,6 +62,7 @@ import com.smartitventures.Response.AssignedOrderResponse.AssignedOrderPayload;
 import com.smartitventures.Response.AssignedOrderResponse.AssignedOrderSuccess;
 import com.smartitventures.Response.TrackOrderStatusSuccess.TrackOrderSuccess;
 import com.smartitventures.Response.UpdateLatLng.UpdateLatLong;
+import com.smartitventures.Utils.NetUtils;
 import com.smartitventures.adapters.AdapterDashboardFragment;
 import com.smartitventures.maps_library.MapRadar;
 import com.smartitventures.maps_library.MapRipple;
@@ -135,8 +136,8 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
     private Marker currentLocationMarker;
     BroadcastReceiver mMessageReceiver;
     private boolean isShowing;
-    private MapRipple mapRipple;
-    private MapRadar mapRadar;
+  //  private MapRipple mapRipple;
+   // private MapRadar mapRadar;
 
 
     @Override
@@ -186,8 +187,15 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
         recyclerViewbottomsheet.setLayoutManager(mLayoutManager);
         recyclerViewbottomsheet.setItemAnimator(new DefaultItemAnimator());
 
+        if(NetUtils.hasConnectivity(getActivity())){
+            GetAssignedOrderApi();
 
-        GetAssignedOrderApi();
+        }
+        else {
+
+            internetDialog(getActivity());
+        }
+
 
 
         return view;
@@ -251,16 +259,18 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
                     LatLng latLng = new LatLng(curLat, curLong);
 
-                    mapRipple = new MapRipple(mMap, latLng, context);
-                    mapRadar = new MapRadar(mMap,latLng,context);
+                   // mapRipple = new MapRipple(mMap, latLng, context);
+                    //mapRadar = new MapRadar(mMap,latLng,context);
 
                    // advancedRipple();
-                    //simpleRipple();
-                    radarAnimation();
+                   // simpleRipple();
+                    //radarAnimation();
 
                     if (currentLocationMarker != null) {
                         currentLocationMarker.remove();
                     }
+
+
 
 
 
@@ -323,7 +333,7 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
     }
 
 
-    public void simpleRipple() {
+ /*   public void simpleRipple() {
         mapRipple.withNumberOfRipples(1);
         mapRipple.withFillColor(Color.parseColor("#00000000"));
         mapRipple.withStrokeColor(Color.BLACK);
@@ -340,9 +350,12 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
 
     public void radarAnimation() {
         mapRadar.startRadarAnimation();
-    }
+    }*/
 
     private void GetAssignedOrderApi() {
+
+
+
 
 
         compositeDisposable.add(apiService.getAssignedOrder(driverId)
@@ -388,36 +401,45 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                     mMap.clear();
 
 
-                                    compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"2")
-                                            .subscribeOn(Schedulers.computation())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new Consumer<TrackOrderSuccess>() {
-                                                @Override
-                                                public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
+                                    if(NetUtils.hasConnectivity(getContext())){
+                                        compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"2")
+                                                .subscribeOn(Schedulers.computation())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new Consumer<TrackOrderSuccess>() {
+                                                    @Override
+                                                    public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
 
-                                                    if(trackOrderSuccess.getIsSuccess()){
+                                                        if(trackOrderSuccess.getIsSuccess()){
 
-                                                        showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                            showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                        }
+
+                                                        else {
+
+                                                            showAlertDialog("Retry",trackOrderSuccess.getMessage());
+
+                                                        }
+
                                                     }
+                                                }, new Consumer<Throwable>() {
+                                                    @Override
+                                                    public void accept(Throwable throwable) throws Exception {
 
-                                                    else {
 
-                                                        showAlertDialog("Retry",trackOrderSuccess.getMessage());
+                                                        showAlertDialog("Retry",throwable.getMessage());
+
 
                                                     }
-
-                                                }
-                                            }, new Consumer<Throwable>() {
-                                                @Override
-                                                public void accept(Throwable throwable) throws Exception {
+                                                }));
 
 
-                                                    showAlertDialog("Retry",throwable.getMessage());
 
+                                    }
+                                    else {
 
-                                                }
-                                            }));
+                                        internetDialog(getContext());
 
+                                    }
 
 
 
@@ -475,35 +497,43 @@ public class DashboardFragment extends BaseFragment implements OnMapReadyCallbac
                                                 if(results[0]==halfDis){
 
 
-                                                    compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"3")
-                                                            .subscribeOn(Schedulers.computation())
-                                                            .observeOn(AndroidSchedulers.mainThread())
-                                                            .subscribe(new Consumer<TrackOrderSuccess>() {
-                                                                @Override
-                                                                public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
+                                                    if(NetUtils.hasConnectivity(getContext())){
+                                                        compositeDisposable.add(apiService.trackOrderStatus(driverID,orderNo,businessID,"3")
+                                                                .subscribeOn(Schedulers.computation())
+                                                                .observeOn(AndroidSchedulers.mainThread())
+                                                                .subscribe(new Consumer<TrackOrderSuccess>() {
+                                                                    @Override
+                                                                    public void accept(TrackOrderSuccess trackOrderSuccess) throws Exception {
 
-                                                                    if(trackOrderSuccess.getIsSuccess()){
+                                                                        if(trackOrderSuccess.getIsSuccess()){
 
-                                                                        showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                                            showAlertDialog("True",trackOrderSuccess.getMessage());
+                                                                        }
+
+                                                                        else {
+
+                                                                            showAlertDialog("Retry",trackOrderSuccess.getMessage());
+
+                                                                        }
+
                                                                     }
+                                                                }, new Consumer<Throwable>() {
+                                                                    @Override
+                                                                    public void accept(Throwable throwable) throws Exception {
 
-                                                                    else {
 
-                                                                        showAlertDialog("Retry",trackOrderSuccess.getMessage());
+                                                                        showAlertDialog("Retry",throwable.getMessage());
+
 
                                                                     }
-
-                                                                }
-                                                            }, new Consumer<Throwable>() {
-                                                                @Override
-                                                                public void accept(Throwable throwable) throws Exception {
+                                                                }));
 
 
-                                                                    showAlertDialog("Retry",throwable.getMessage());
+                                                    }
+                                                    else {
 
-
-                                                                }
-                                                            }));
+                                                        internetDialog(getContext());
+                                                    }
 
 
 

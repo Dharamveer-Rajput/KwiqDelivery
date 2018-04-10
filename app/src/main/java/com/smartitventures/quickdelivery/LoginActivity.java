@@ -15,6 +15,7 @@ import com.smartitventures.AppConstants;
 import com.smartitventures.BaseActivity;
 import com.smartitventures.Dialog.EnterOTPDialog;
 import com.smartitventures.Response.PhoneNoSuccess.PhoneNoSuccess;
+import com.smartitventures.Utils.NetUtils;
 import com.taishi.flipprogressdialog.FlipProgressDialog;
 
 import java.util.ArrayList;
@@ -127,61 +128,71 @@ public class LoginActivity extends BaseActivity {
 
         flipProgress();
 
-        if(TextUtils.isEmpty(edPhoneNo.getText().toString()))
+        if (TextUtils.isEmpty(edPhoneNo.getText().toString()))
 
         {
-            if (TextUtils.isEmpty(edPhoneNo.getText().toString().trim()))
-            {
+            if (TextUtils.isEmpty(edPhoneNo.getText().toString().trim())) {
                 fpd.dismiss();
                 edPhoneNo.setError("Enter Mobile No");
 
             }
-        }
-        else {
+        } else {
 
             phoneNo = edPhoneNo.getText().toString().trim();
 
             String codeWithPh = ccp.getFullNumberWithPlus();
 
-            compositeDisposable.add(apiService.isPhoneNoExist(codeWithPh)
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<PhoneNoSuccess>() {
-                        @Override
-                        public void accept(PhoneNoSuccess phoneNoSuccess) throws Exception {
 
-                            if (phoneNoSuccess.getIsSuccess()) {
+            if (NetUtils.hasConnectivity(this)) {
+                compositeDisposable.add(apiService.isPhoneNoExist(codeWithPh)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<PhoneNoSuccess>() {
+                            @Override
+                            public void accept(PhoneNoSuccess phoneNoSuccess) throws Exception {
 
-                                fpd.dismiss();
+                                if (phoneNoSuccess.getIsSuccess()) {
 
-                                sharedPrefsHelper.put(AppConstants.PHONE_NUMBER, codeWithPh);
+                                    fpd.dismiss();
 
-                                EnterOTPDialog enterOTPDialog = new EnterOTPDialog(LoginActivity.this);
-                                enterOTPDialog.show();
+                                    sharedPrefsHelper.put(AppConstants.PHONE_NUMBER, codeWithPh);
 
-                            } else {
+                                    EnterOTPDialog enterOTPDialog = new EnterOTPDialog(LoginActivity.this);
+                                    enterOTPDialog.show();
 
-                                fpd.dismiss();
-                                showAlertDialog("Retry", phoneNoSuccess.getMessage());
-                                edPhoneNo.setText("");
+                                } else {
+
+                                    fpd.dismiss();
+                                    showAlertDialog("Retry", phoneNoSuccess.getMessage());
+                                    edPhoneNo.setText("");
+
+                                }
 
                             }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
 
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
+                                fpd.dismiss();
+                                showAlertDialog("Retry", throwable.getMessage());
 
-                            fpd.dismiss();
-                            showAlertDialog("Retry", throwable.getMessage());
+                            }
+                        }));
 
-                        }
-                    }));
+            }
+            else {
+
+                internetDialog(this);
+
+
+            }
+
 
 
 
         }
     }
-
-
 }
+
+
+

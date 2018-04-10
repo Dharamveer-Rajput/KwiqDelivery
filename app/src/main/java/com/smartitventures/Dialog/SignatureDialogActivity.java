@@ -35,6 +35,7 @@ import com.smartitventures.BaseActivity;
 import com.smartitventures.Network.ApiService;
 import com.smartitventures.Response.DeliveryStatusResponse.DeliveryStatusSuccess;
 import com.smartitventures.Utils.FileUtils;
+import com.smartitventures.Utils.NetUtils;
 import com.smartitventures.applicationclass.AppController;
 import com.smartitventures.di.modules.SharedPrefsHelper;
 
@@ -65,7 +66,7 @@ import okhttp3.RequestBody;
  * Created by dharamveer on 7/2/18.
  */
 
-public class SignatureDialogActivity extends Activity {
+public class SignatureDialogActivity extends BaseActivity {
 
 
     NoInternetDialog noInternetDialog;
@@ -148,43 +149,51 @@ public class SignatureDialogActivity extends Activity {
                 RequestBody bussinessId = RequestBody.create(MediaType.parse("text/plain"), bussinessId1);
 
 
-                compositeDisposable.add(apiService.deliveryStatus(driverID,orderNo,bussinessId,imagePath == null ? null : prepareFilePart("file",imagePath))
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<DeliveryStatusSuccess>() {
-                            @Override
-                            public void accept(DeliveryStatusSuccess deliveryStatusSuccess) throws Exception {
+                if(NetUtils.hasConnectivity(this)){
+                    compositeDisposable.add(apiService.deliveryStatus(driverID,orderNo,bussinessId,imagePath == null ? null : prepareFilePart("file",imagePath))
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<DeliveryStatusSuccess>() {
+                                @Override
+                                public void accept(DeliveryStatusSuccess deliveryStatusSuccess) throws Exception {
 
 
-                                if(deliveryStatusSuccess.getIsSuccess()){
+                                    if(deliveryStatusSuccess.getIsSuccess()){
 
 
-                                    progressBar.setVisibility(View.GONE);
+                                        progressBar.setVisibility(View.GONE);
 
-                                    Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
 
-                                    finish();
+                                        finish();
+                                    }
+                                    else {
+
+                                        Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                    }
+
                                 }
-                                else {
+                            }, new Consumer<Throwable>() {
+                                @Override
+                                public void accept(Throwable throwable) throws Exception {
 
-                                    Toast.makeText(getApplicationContext(),deliveryStatusSuccess.getMessage(),Toast.LENGTH_SHORT).show();
+                                    compositeDisposable.dispose();
+
+                                    Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show();
 
                                 }
-
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-
-                                compositeDisposable.dispose();
-
-                                Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_SHORT).show();
-
-                            }
-                        }));
+                            }));
 
 
 
+
+
+                }
+                else {
+
+                    internetDialog(this);
+                }
 
 
 

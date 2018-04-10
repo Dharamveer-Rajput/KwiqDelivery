@@ -134,7 +134,6 @@ public class BaseActivity extends AppCompatActivity
     }
 
 
-
     public void showAlertDialog(String action,String message){
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -175,9 +174,5 @@ public class BaseActivity extends AppCompatActivity
 
 
     }
-
-
-
-
 
 }
